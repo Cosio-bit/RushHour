@@ -26,10 +26,11 @@ Autos::Autos() {
 }
 
 Autos::~Autos() {
-    for (int i=0; i<this->count; i++) {
+    for (int i = 0; i < this->amountOfAutos(); i++) {
         delete this->autos[i];
     }
 }
+
 
 bool Autos::equalAutos(Autos *autos1) {
     if (this->count != autos1->count) {
@@ -210,46 +211,25 @@ bool Autos::checkValidAndDirection() {
         int largo = auto1->largo;
         int dir = auto1->dir;
 
-        // Check if the car (considering its length) goes out of bounds
-        if (dir == HORIZONTAL) {
-            if (x < 0 || x >= width || y < 0 || y + largo > height) {
-                return false; // Out of bounds in the horizontal direction
-            }
-        } else if (dir == VERTICAL) {
-            if (x < 0 || x + largo > width || y < 0 || y >= height) {
-                return false; // Out of bounds in the vertical direction
-            }
-        } else {
-            return false; // Invalid direction
-        }
-
-        // Check if the car is colliding with another car
+        //create a list for each car with the positions it occupies
         for (int j = 0; j < largo; j++) {
-            // Check if the current position has been visited before
             if (visited[x][y]) {
-                return false; // Collision detected
+                return false;
             }
-
-            // Mark the current position as visited
             visited[x][y] = true;
 
-            // Update the coordinates based on the direction
-            if (dir == HORIZONTAL) {
-                y++;
-            } else if (dir == VERTICAL) {
+            // Actualizar las coordenadas según la dirección
+            if (dir == HORIZONTAL) { // Horizontal
                 x++;
+            } else if (dir == VERTICAL) { // Vertical
+                y++;
+            }
+
+            //check if the car is within the maze boundaries
+            if (x < 0 || x >= 6 || y < 0 || y >= 6) {
+                return false;
             }
         }
     }
-
-    // Check if any part of the grid is unvisited (empty space)
-    for (int i = 0; i < width; i++) {
-        for (int j = 0; j < height; j++) {
-            if (!visited[i][j]) {
-                return false; // Empty space detected
-            }
-        }
-    }
-
-    return true; // Valid grid with no collisions, out of bounds, or invalid directions
+    return true;
 }

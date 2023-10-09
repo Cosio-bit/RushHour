@@ -79,8 +79,8 @@ State* Maze::solve(State* initialState) {
                 printf("\n");
                 //newState = this->op[k].operateAuto(newState, 0);
                 // Check if the new state is valid
-                if (//!closed.contains(newState) &&
-                    //!open.contains(newState) &&
+                if (!closed.contains(newState) &&
+                    !open.contains(newState) &&
                     newState->autos->checkValidAndDirection()) {
                         newState->autos->print();
                         // Calculate the heuristic value for the new state
